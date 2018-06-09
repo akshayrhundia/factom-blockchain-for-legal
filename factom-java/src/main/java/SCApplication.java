@@ -1,5 +1,6 @@
 
 
+import controller.ChainController;
 import controller.MSPController;
 
 import javax.ws.rs.core.Application;
@@ -15,6 +16,7 @@ public class SCApplication extends Application {
 
         // Add application resources
         this.resources.add(MSPController.class);
+        this.resources.add(ChainController.class);
 
     }
 
