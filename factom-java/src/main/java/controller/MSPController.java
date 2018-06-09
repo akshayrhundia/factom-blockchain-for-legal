@@ -7,18 +7,17 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.apache.http.HttpStatus;
 import persistence.PersistPublicKeys;
+import persistence.Users;
 import utils.GenerateKeys;
 
 import javax.servlet.http.HttpServlet;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Path("/member")
@@ -63,5 +62,13 @@ public class MSPController  extends HttpServlet {
         PersistPublicKeys persistPublicKeys = new PersistPublicKeys();
         persistPublicKeys.addPublicKey(keyBytes, jOrg.getAsString());
         return Response.status(HttpStatus.SC_OK).build();
+    }
+
+    @GET
+    @Path("/getall")
+    public Response getAll() {
+        Users users=new Users();
+        List<String> resp=users.getAllUsers();
+        return Response.status(HttpStatus.SC_OK).entity(gson.toJson(resp)).build();
     }
 }

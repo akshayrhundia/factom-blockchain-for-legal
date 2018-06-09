@@ -11,23 +11,23 @@ public class PersistPublicKeys {
     Datastore datastore;
 
     public PersistPublicKeys() {
-        datastore = DatastoreOptions.newBuilder().setProjectId("ntm-dev-202213").build().getService();
+        datastore = DatastoreOptions.newBuilder().setProjectId("ntm-dev-202213").setNamespace("hack").build().getService();
     }
 
     public void addPublicKey(byte[] publicKey,String tenant) {
-        Key taskKey = datastore.newKeyFactory().setKind("pubkeys").newKey(tenant);
+        Key taskKey = datastore.newKeyFactory().setKind("users").newKey(tenant);
         Entity task = Entity.newBuilder(taskKey).set("pub", Blob.copyFrom(publicKey)).build();
         datastore.put(task);
     }
 
     public void addPublicKey(PublicKey publicKey,String tenant) {
-        Key taskKey = datastore.newKeyFactory().setKind("pubkeys").newKey(tenant);
+        Key taskKey = datastore.newKeyFactory().setKind("users").newKey(tenant);
         Entity task = Entity.newBuilder(taskKey).set("pub", Blob.copyFrom(publicKey.getEncoded())).build();
         datastore.put(task);
     }
 
     public PublicKey getPublicKey(String tenant) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        Key taskKey = datastore.newKeyFactory().setKind("pubkeys").newKey(tenant);
+        Key taskKey = datastore.newKeyFactory().setKind("users").newKey(tenant);
         Entity esEntity = datastore.get(taskKey);
         byte[] keyBytes = esEntity.getBlob("pub").toByteArray();
         X509EncodedKeySpec spec = new X509EncodedKeySpec(keyBytes);
@@ -36,7 +36,7 @@ public class PersistPublicKeys {
     }
 
     public byte[] getPublicKeyBytes(String tenant) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        Key taskKey = datastore.newKeyFactory().setKind("pubkeys").newKey(tenant);
+        Key taskKey = datastore.newKeyFactory().setKind("users").newKey(tenant);
         Entity esEntity = datastore.get(taskKey);
         byte[] keyBytes = esEntity.getBlob("pub").toByteArray();
         return keyBytes;
