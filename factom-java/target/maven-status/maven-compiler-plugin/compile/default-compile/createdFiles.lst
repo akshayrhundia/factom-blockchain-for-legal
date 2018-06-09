@@ -1,1 +1,12 @@
+persistence\PersistPrivateKeys.class
 controller\HelloWorld.class
+controller\Verification$1.class
+utils\GenerateKeys.class
+utils\StringUtil.class
+controller\Verification.class
+SCApplication.class
+controller\MSPController.class
+model\Record.class
+utils\Database.class
+persistence\PersistPublicKeys.class
+utils\VerifySignatures.class
