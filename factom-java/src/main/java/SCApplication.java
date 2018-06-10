@@ -1,7 +1,9 @@
 
 
+import controller.CaseController;
 import controller.ChainController;
 import controller.MSPController;
+import utils.CORSResponseFilter;
 
 import javax.ws.rs.core.Application;
 import java.util.HashSet;
@@ -17,6 +19,8 @@ public class SCApplication extends Application {
         // Add application resources
         this.resources.add(MSPController.class);
         this.resources.add(ChainController.class);
+this.resources.add(CaseController.class);
+        this.singletons.add(new CORSResponseFilter());
 
     }
 

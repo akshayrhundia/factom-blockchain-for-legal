@@ -1,8 +1,10 @@
+controller\CaseController.class
 controller\Verification$1.class
 utils\GenerateKeys.class
 controller\Verification.class
 persistence\PersistTransactionHash.class
 model\Record.class
+utils\CORSResponseFilter.class
 utils\VerifySignatures.class
 persistence\PersistPrivateKeys.class
 controller\HelloWorld.class

@@ -30,6 +30,67 @@ public class ChainController extends HttpServlet {
 
 
     @POST
+    @Path("/auth_user")
+    public Response auth_user(String params) {
+        try {
+            Base64 base64 = new Base64();
+            JsonParser parser = new JsonParser();
+            JsonObject o = parser.parse(params).getAsJsonObject();
+            String chain_id = o.get("chainid").getAsString();
+            JsonArray jsonArray = o.get("users").getAsJsonArray();
+            ArrayList<String> list = new ArrayList<String>();
+            if (jsonArray != null) {
+                int len = jsonArray.size();
+                for (int i=0;i<len;i++){
+                    list.add(jsonArray.get(i).getAsString());
+                }
+            }
+            String content_ = new String(base64.encode(gson.toJson(list).getBytes()));
+            ArrayList<String> ext = new ArrayList<String>();
+            String s="case-chain";
+            ext.add(new String(base64.encode(s.getBytes())));
+            Map<String,Object> myMap=new HashMap<String,Object>();
+            myMap.put("content",content_);
+            myMap.put("external_ids",ext);
+            String resp=HTTPClient.sendPost("https://apiplus-api-sandbox-testnet.factom.com/v1/chains/" + chain_id + "/entries",gson.toJson(myMap));
+            return Response.status(HttpStatus.SC_OK).entity(resp).build();
+
+        } catch (Exception ex) {
+            return Response.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).build();
+        }
+    }
+    @POST
+    @Path("/create_case")
+    public Response create_case(String params) {
+        try {
+            Base64 base64 = new Base64();
+            JsonParser parser = new JsonParser();
+            JsonObject o = parser.parse(params).getAsJsonObject();
+            String chain_id = o.get("parentid").getAsString();
+            JsonArray jsonArray = o.get("childid").getAsJsonArray();
+            ArrayList<String> list = new ArrayList<String>();
+            if (jsonArray != null) {
+                int len = jsonArray.size();
+                for (int i=0;i<len;i++){
+                    list.add(jsonArray.get(i).getAsString());
+                }
+            }
+            String content_ = new String(base64.encode(gson.toJson(list).getBytes()));
+            ArrayList<String> ext = new ArrayList<String>();
+            String s="case-chain";
+            ext.add(new String(base64.encode(s.getBytes())));
+            Map<String,Object> myMap=new HashMap<String,Object>();
+            myMap.put("content",content_);
+            myMap.put("external_ids",ext);
+            String resp=HTTPClient.sendPost("https://apiplus-api-sandbox-testnet.factom.com/v1/chains/" + chain_id + "/entries",gson.toJson(myMap));
+            return Response.status(HttpStatus.SC_OK).entity(resp).build();
+
+        } catch (Exception ex) {
+            return Response.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @POST
     @Path("/addentry")
     public Response register(String params) {
         try {

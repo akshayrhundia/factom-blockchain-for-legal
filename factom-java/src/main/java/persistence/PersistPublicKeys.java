@@ -1,11 +1,14 @@
 package persistence;
 
+import com.google.api.client.util.Base64;
 import com.google.cloud.datastore.*;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
+import java.util.LinkedList;
+import java.util.List;
 
 public class PersistPublicKeys {
     Datastore datastore;
@@ -40,5 +43,20 @@ public class PersistPublicKeys {
         Entity esEntity = datastore.get(taskKey);
         byte[] keyBytes = esEntity.getBlob("pub").toByteArray();
         return keyBytes;
+    }
+    public List<String> getAllPublicKeys() {
+        Query<Entity> query = Query.newEntityQueryBuilder()
+                .setKind("users")
+                .build();
+        QueryResults<Entity> tasks = datastore.run(query);
+        List<String> ret=new LinkedList<String>();
+        while(tasks.hasNext()){
+            System.out.println("yess");
+            byte[] data=tasks.next().getBlob("pub").toByteArray();
+            ret.add(new String(Base64.encodeBase64(data)));
+            //System.out.println(new String(Base64.encodeBase64(data)));
+            //new String(Base64.encodeBase64(gk.getPrivateKey().getEncoded()))
+        }
+        return ret;
     }
 }

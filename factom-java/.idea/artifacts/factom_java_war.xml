@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="factom-java:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="factom-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="factom-java:war exploded" />
+    </root>
+  </artifact>
+</component>
