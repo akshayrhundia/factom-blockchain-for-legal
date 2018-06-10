@@ -1,5 +1,6 @@
 C:\Users\ahundia\Documents\Personal\factom-blockchain-for-legal\factom-java\src\main\java\persistence\PersistTransactionHash.java
 C:\Users\ahundia\Documents\Personal\factom-blockchain-for-legal\factom-java\src\main\java\utils\VerifySignatures.java
+C:\Users\ahundia\Documents\Personal\factom-blockchain-for-legal\factom-java\src\main\java\controller\CaseController.java
 C:\Users\ahundia\Documents\Personal\factom-blockchain-for-legal\factom-java\src\main\java\controller\HelloWorld.java
 C:\Users\ahundia\Documents\Personal\factom-blockchain-for-legal\factom-java\src\main\java\utils\StringUtil.java
 C:\Users\ahundia\Documents\Personal\factom-blockchain-for-legal\factom-java\src\main\java\utils\GenerateKeys.java
@@ -9,7 +10,9 @@ C:\Users\ahundia\Documents\Personal\factom-blockchain-for-legal\factom-java\src\
 C:\Users\ahundia\Documents\Personal\factom-blockchain-for-legal\factom-java\src\main\java\utils\HTTPClient.java
 C:\Users\ahundia\Documents\Personal\factom-blockchain-for-legal\factom-java\src\main\java\utils\Database.java
 C:\Users\ahundia\Documents\Personal\factom-blockchain-for-legal\factom-java\src\main\java\persistence\PersistPublicKeys.java
+C:\Users\ahundia\Documents\Personal\factom-blockchain-for-legal\factom-java\src\main\java\persistence\Auth.java
 C:\Users\ahundia\Documents\Personal\factom-blockchain-for-legal\factom-java\src\main\java\persistence\PersistPrivateKeys.java
 C:\Users\ahundia\Documents\Personal\factom-blockchain-for-legal\factom-java\src\main\java\controller\ChainController.java
+C:\Users\ahundia\Documents\Personal\factom-blockchain-for-legal\factom-java\src\main\java\utils\CORSResponseFilter.java
 C:\Users\ahundia\Documents\Personal\factom-blockchain-for-legal\factom-java\src\main\java\persistence\Users.java
 C:\Users\ahundia\Documents\Personal\factom-blockchain-for-legal\factom-java\src\main\java\model\Record.java

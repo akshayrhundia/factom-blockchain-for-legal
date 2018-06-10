@@ -1,10 +1,7 @@
 package controller;
 
 import com.google.api.client.util.Base64;
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import org.apache.http.HttpStatus;
 import persistence.PersistPublicKeys;
@@ -29,7 +26,7 @@ public class Verification {
     @Context
     private HttpHeaders httpHeaders;
 
-    private Gson gson = new Gson();
+    private Gson gson = new GsonBuilder().disableHtmlEscaping().create();
 
     @POST
     @Path("/verifysign")
@@ -39,14 +36,14 @@ public class Verification {
             JsonParser parser = new JsonParser();
             JsonObject o = parser.parse(params).getAsJsonObject();
             JsonElement jpayload = o.get("payload");
-            JsonElement jOrg = o.get("org");
+            JsonElement user = o.get("user");
             JsonElement jSignature = o.get("signature");
-            HashMap<String, Object> map = new Gson().fromJson(jpayload, new TypeToken<HashMap<String, Object>>() {
-            }.getType());
-            byte[] data = gson.toJson(map).getBytes();
+            //HashMap<String, Object> map = new Gson().fromJson(jpayload, new TypeToken<HashMap<String, Object>>() {
+            //}.getType());
+            byte[] data = jpayload.getAsString().getBytes();
             byte[] signature = Base64.decodeBase64(jSignature.getAsString().getBytes());
             PersistPublicKeys persistPublicKeys = new PersistPublicKeys();
-            PublicKey publicKey = persistPublicKeys.getPublicKey(jOrg.getAsString());
+            PublicKey publicKey = persistPublicKeys.getPublicKey(user.getAsString());
             System.out.println(new String(data));
             Boolean flag = VerifySignatures.verifySignature(data, signature, publicKey);
             Map<String, Object> res = new HashMap<String, Object>();

@@ -3,6 +3,7 @@
 import controller.CaseController;
 import controller.ChainController;
 import controller.MSPController;
+import controller.Verification;
 import utils.CORSResponseFilter;
 
 import javax.ws.rs.core.Application;
@@ -20,6 +21,7 @@ public class SCApplication extends Application {
         this.resources.add(MSPController.class);
         this.resources.add(ChainController.class);
 this.resources.add(CaseController.class);
+this.resources.add(Verification.class);
         this.singletons.add(new CORSResponseFilter());
 
     }

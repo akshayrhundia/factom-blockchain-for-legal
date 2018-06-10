@@ -23,7 +23,7 @@ public class HTTPClient {
         // optional default is GET
         con.setRequestMethod("GET");
         con.setRequestProperty("factom-provider-token","1C8aOhbSJh48kYbxqnoFhfADPycLVThB2CuVW0ZaVDjadi1C");
-
+        con.setRequestProperty("Content-Type","application/json");
         int responseCode = con.getResponseCode();
         System.out.println("\nSending 'GET' request to URL : " + url);
         System.out.println("Response Code : " + responseCode);

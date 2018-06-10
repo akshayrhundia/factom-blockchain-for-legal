@@ -9,16 +9,16 @@ public class Auth {
     Datastore datastore;
 
     public Auth() {
-        datastore = DatastoreOptions.newBuilder().setProjectId("ntm-dev-202213").setNamespace("hack").build().getService();
+        datastore = DatastoreOptions.newBuilder().setProjectId("ntm-dev-202213").build().getService();
     }
 
-    public void updateUsersOnChain(String chain_id,List<String> users) {
-        Key taskKey = datastore.newKeyFactory().setKind("CHAIN_STORE").newKey(chain_id);
-        Entity task = Entity.newBuilder(taskKey).set("chain_id", orig.getString("chain_id"))
-                .set("entry_hash",orig.getString("entry_hash"))
-                .set("external_ids",orig.get(""))
-                .set("",users).build();
+    public void updateUsersOnChain(String chain_id,String user) {
+        System.out.println(user);
+        Key taskKey = datastore.newKeyFactory().setKind("CHAIN_STORE").newKey(System.currentTimeMillis());
+        Entity task = Entity.newBuilder(taskKey).set("chain_id", chain_id)
+                .set("user",user).build();
         datastore.put(task);
     }
+
 
 }

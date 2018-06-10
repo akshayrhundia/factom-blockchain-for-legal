@@ -1,11 +1,14 @@
 package controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.util.Base64;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.apache.http.HttpStatus;
+import persistence.PersistPrivateKeys;
 import persistence.PersistPublicKeys;
 import persistence.Users;
 import utils.GenerateKeys;
@@ -45,6 +48,9 @@ public class MSPController  extends HttpServlet {
             persistPublicKeys.addPublicKey(gk.getPublicKey().getEncoded(), org.getAsString());
             Map<String, String> res = new HashMap<String, String>();
             res.put("key", new String(Base64.encodeBase64(gk.getPrivateKey().getEncoded())));
+
+            PersistPrivateKeys persistPrivateKeys=new PersistPrivateKeys();
+            persistPrivateKeys.addPublicKey(gk.getPrivateKey(),org.getAsString());
             System.out.println("------------------");
             List<String> lst=persistPublicKeys.getAllPublicKeys();
             List<String> hashes=new LinkedList<String>();
@@ -80,6 +86,45 @@ public class MSPController  extends HttpServlet {
         return Response.status(HttpStatus.SC_OK).build();
     }
 
+    @GET
+    @Path("/verify")
+    public Response verify() {
+        try {
+            String url="https://apiplus-api-sandbox-testnet.factom.com/v1/chains/f5b0e8b21cade3c0b1971ba83a382c60be0f1337681fc6694a7af549c5c95dd3/entries/last";
+            String resp=HTTPClient.sendGet(url);
+            System.out.println(resp);
+            JsonParser parser = new JsonParser();
+            JsonObject o = parser.parse(resp).getAsJsonObject();
+            JsonElement jcon = o.get("content");
+            String content=new String(Base64.decodeBase64(jcon.getAsString()));
+            System.out.println(content);
+            ObjectMapper objectMapper = new ObjectMapper();
+            TypeReference<List<String>> mapType = new TypeReference<List<String>>() {};
+            List<String> jsonToPersonList = objectMapper.readValue(content, mapType);
+            Set<String> keys=new HashSet<String>();
+            for(String hash:jsonToPersonList)
+                keys.add(hash);
+            PersistPublicKeys persistPublicKeys = new PersistPublicKeys();
+            List<String> lst=persistPublicKeys.getAllPublicKeys();
+            List<String> hashes=new LinkedList<String>();
+            Map<String, Object> res = new HashMap<String, Object>();
+
+            for(String key:lst){
+                if(!keys.contains(StringUtil.applySha256(key)))
+                {
+                    res.put("verified", false);
+                    return Response.status(HttpStatus.SC_OK).entity(gson.toJson(res)).build();
+                }
+            }
+
+            res.put("verified", true);
+            return Response.status(HttpStatus.SC_OK).entity(gson.toJson(res)).build();
+        } catch (Exception ex) {
+            return Response.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).build();
+        }
+
+
+    }
     @GET
     @Path("/getall")
     public Response getAll() {
